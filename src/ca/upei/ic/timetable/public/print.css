@@ -1,0 +1,14 @@
+.wi-CalendarPanel-selectedCourse {
+	background-color: #ffffff;
+	border: 1px solid #b5d5ff;
+	overflow: hidden;
+}
+
+.wi-CalendarPanel-selectedCourse .gwt-HTML {
+	margin: 3px 3px;
+	padding: 0px 0px;
+	font-size: 9pt;
+	color: #000;
+	text-align: center;
+	background-color: #ffffff;
+}

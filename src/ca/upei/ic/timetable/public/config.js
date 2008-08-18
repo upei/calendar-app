@@ -1,0 +1,1 @@
+var __wi_CourseSelector_Service_URL = "http://localhost:8000/services/simple/timetable.php";

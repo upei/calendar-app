@@ -1,0 +1,99 @@
+/** Add css rules here for your application. */
+
+@page {
+	size: 8.5in 11in;
+	margin: 1.5cm;
+	marks: cross;
+}
+
+body {
+  font-family:arial,sans-serif;
+  font-size: 12px;
+}
+
+div,td {
+  color:#000000
+}
+
+a:link {
+  color:#0000cc
+}
+     
+a:visited {
+  color:#551a8b
+}
+
+a:active {
+  color:#ff0000
+}
+
+button {
+  display: block;
+  font-size: 16pt
+}
+
+.widePanel {
+  width: 100%
+}
+
+img {
+  margin-top: 20px;
+}
+
+/* CalendarPanel styles */
+.wi-CalendarPanel-selectedCourse {
+	background-color: #e8f2fe;
+	border: 1px solid #b5d5ff;
+	overflow: hidden;
+}
+
+.wi-CalendarPanel-selectedCourse .gwt-HTML {
+	margin: 3px 3px;
+	padding: 0px 0px;
+	font-size: 9pt;
+	color: #000;
+	text-align: center;
+	background-color: #e8f2fe;
+}
+
+.wi-CalendarPanel-selectedCourse h3 {
+	padding: 0px 0px;
+	margin: 0px 0px;
+	font-size: 9pt;
+	font-weight: bold;
+}
+
+.wi-CalendarPanel-selectedCourse p {
+	padding: 0px 0px;
+	margin: 0px 0px;
+}
+
+/* grid background */
+
+.gridColumn {
+	border-right: 1px solid #ccc;
+}
+
+.gridCell {
+	border-bottom: 1px solid #ccc;
+}
+
+.timeColumn {
+	border-right: 1px solid #ccc;
+}
+
+.timeCell {
+	text-align: right;
+	vertical-align: center;
+}
+
+/* header strings */
+
+.gridHeaderCell {
+	border-bottom: 1px solid #ccc;
+	text-align: center;
+}
+
+.wi-CourseSelector-Header .gwt-HTML {
+	padding-top: 10px;
+}

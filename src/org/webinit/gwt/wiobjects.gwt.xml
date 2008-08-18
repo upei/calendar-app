@@ -1,0 +1,9 @@
+<module>
+	<inherits name="com.google.gwt.user.User"/>
+
+	<generate-with class="org.webinit.gwt.rebind.InterfaceProxyGenerator">
+		<any>
+			<when-type-assignable class="org.webinit.gwt.client.NeedProxy" />
+		</any>
+	</generate-with>
+</module>
