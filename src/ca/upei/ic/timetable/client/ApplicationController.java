@@ -35,6 +35,7 @@ public class ApplicationController implements ViewController {
 	private CourseViewController courseController_;
 	private MessageViewController messageController_;
 	private CourseCalendarViewController calendarController_;
+	private CourseDetailController courseDetailController_;
 	private ApplicationView view_;
 	
 	public ApplicationController() {
@@ -62,6 +63,14 @@ public class ApplicationController implements ViewController {
 		}
 		
 		return calendarController_;
+	}
+	
+	public CourseDetailController getCourseDetailController() {
+		if (null == courseDetailController_) {
+			courseDetailController_ = new CourseDetailController(this);
+		}
+		
+		return courseDetailController_;
 	}
 	
 	public MessageViewController getMessageController() {

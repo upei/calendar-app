@@ -106,6 +106,44 @@ function get_courses_of_departments_and_levels($params) {
 	return $courses;
 }
 
+function get_course_detail($params) {
+	$id = $params->id;
+	
+	// get the xml output
+	$xml = cache_get(URL);
+	$xml->registerXPathNamespace('tt', 'http://upei.ca/xsd/timetable');
+	
+	$list = $xml->xpath("//tt:course[tt:id='$id']");
+	
+	$course = array();
+
+	if (count($list) == 0) {
+		$course['sucess'] = false;
+		return $course;
+	}
+	else {
+		$c = $list[0];
+		$course['success'] = true;
+		$course['id'] = intval($c->id);
+		$course['name'] = strval($c->name);
+		$course['title'] = strval($c->title);
+		$course['semester'] = strval($c->semester);
+		$course['location'] = strval($c->location);
+		$course['status'] = strval($c->status);
+		$course['time'] = strval($c->time);
+		$course['department'] = strval($c->department);
+		$course['description'] = '';
+		
+		$c->registerXPathNamespace('tt', 'http://upei.ca/xsd/timetable');
+		$teachers = array();
+		foreach($c->xpath('tt:instructors/tt:name') as $instructor) {
+			$teachers[] = strval($instructor);
+		}
+		$course['instructors'] = join("; ", $teachers);
+		return $course;
+	}
+}
+
 if (!isset($_GET['method'])) {
 	die('method name invalid!');
 }

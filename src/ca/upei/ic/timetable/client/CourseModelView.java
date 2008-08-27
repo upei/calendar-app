@@ -22,6 +22,9 @@ import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.FocusListener;
+import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.MouseListener;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -55,7 +58,7 @@ public class CourseModelView implements Model, View {
 	}
 	
 	public void addCourse(final int id, final JSONObject value, boolean selected) {
-		CheckBox box = new CheckBox();
+		final CheckBox box = new CheckBox();
 		String name = ((JSONString) value.get("name")).stringValue();
 		String title = ((JSONString) value.get("title")).stringValue();
 		String time = ((JSONString) value.get("time")).stringValue();
@@ -76,10 +79,35 @@ public class CourseModelView implements Model, View {
 					controller_.unselect(id);
 				}
 			}
-			
+
 		});
-		
-		panel_.add(box);
+
+		FocusPanel focus = PanelUtils.focusPanel(
+				box,
+				null,
+				null,
+				null,
+				new MouseListener() {
+
+					public void onMouseDown(Widget sender, int x, int y) {
+					}
+
+					public void onMouseEnter(Widget sender) {
+						controller_.showCourseDetail(id);
+					}
+
+					public void onMouseLeave(Widget sender) {
+						controller_.hideCourseDetail();
+					}
+
+					public void onMouseMove(Widget sender, int x, int y) {
+					}
+
+					public void onMouseUp(Widget sender, int x, int y) {
+//						box.setChecked( !box.isChecked() );
+					}
+				});
+		panel_.add(focus);
 	}
 
 	public void loadJSON(JSONValue value) {

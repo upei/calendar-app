@@ -30,6 +30,8 @@ import com.google.gwt.http.client.RequestException;
 public class Remote {
 	private String url_;
 	
+	private Request currentRequest_;
+	
 	public Remote(String url) {
 		url_ = url;
 	}
@@ -41,7 +43,7 @@ public class Remote {
 	 * @param params
 	 * @param callback
 	 */
-	public void get(String method, Map<String, String> params, RequestCallback callback) {
+	public Request get(String method, Map<String, String> params, RequestCallback callback) {
 		// build the query
 		StringBuffer q = new StringBuffer();
 		q.append("?method=" + method);
@@ -64,6 +66,7 @@ public class Remote {
 		catch (RequestException re) {
 			callback.onError(request, re);
 		}
+		return request;
 	}
 	
 	/**
@@ -74,7 +77,7 @@ public class Remote {
 	 * @param data
 	 * @param callback
 	 */
-	public void post(String method, String contentType, String data, RequestCallback callback) {
+	public Request post(String method, String contentType, String data, RequestCallback callback) {
 		StringBuffer q = new StringBuffer();
 		q.append("?method=" + method);
 		
@@ -90,5 +93,6 @@ public class Remote {
 		catch (RequestException re) {
 			callback.onError(request, re);
 		}
+		return request;
 	}
 }

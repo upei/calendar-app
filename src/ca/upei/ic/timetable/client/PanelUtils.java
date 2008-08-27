@@ -141,6 +141,7 @@ public class PanelUtils {
 			panel.addKeyboardListener(keyboardListener);
 		if (mouseListener != null)
 			panel.addMouseListener(mouseListener);
+		panel.setWidget(widget);
 		return panel;
 	}
 }

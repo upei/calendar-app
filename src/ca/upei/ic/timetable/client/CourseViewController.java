@@ -151,6 +151,13 @@ public class CourseViewController implements ViewController {
 		return selectionIndexes_.contains(index);
 	}
 	
+	public void showCourseDetail(int id) {
+		app_.getCourseDetailController().showCourseDetail(id);
+	}
+	
+	public void hideCourseDetail() {
+		app_.getCourseDetailController().hideCourseDetail();
+	}
 	/**
 	 * Clear all courses in the view
 	 */

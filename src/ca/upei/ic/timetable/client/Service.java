@@ -15,7 +15,10 @@
  */
 package ca.upei.ic.timetable.client;
 
+import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.json.client.JSONNumber;
+import com.google.gwt.json.client.JSONObject;
 
 /**
  * Provides services for controllers to get remote data
@@ -59,6 +62,19 @@ public class Service {
 		remote_.get("get_semesters", null, callback);
 	}
 	
+	private Request currentCourseDetailRequest_;
+	
+	public void askCourseDetail(int courseId, RequestCallback callback) {
+		JSONObject object = new JSONObject();
+		object.put("id", new JSONNumber(courseId));
+		currentCourseDetailRequest_ = remote_.post("get_course_detail", "application/json", object.toString(), callback);
+	}
+	
+	public void cancelCourseDetailRequest() {
+		if (currentCourseDetailRequest_ != null)
+			currentCourseDetailRequest_.cancel();
+	}
+
 	public static native String getDefaultServiceURL() /*-{
 		return $wnd.__wi_CourseSelector_Service_URL;
 	}-*/;
