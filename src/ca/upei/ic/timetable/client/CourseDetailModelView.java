@@ -15,18 +15,21 @@
  */
 package ca.upei.ic.timetable.client;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONBoolean;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.MouseListener;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * The view for course details.
+ * 
+ * @author felix
+ *
+ */
 public class CourseDetailModelView implements Model, View {
 	
 	private CourseDetailController controller_;
