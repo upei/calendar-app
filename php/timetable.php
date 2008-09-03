@@ -2,6 +2,14 @@
 
 define('URL', 'https://secure.upei.ca/cls/dropbox/full-timetable.xml');
 
+define('DB_HOST', '127.0.0.1');
+define('DB_PORT', 3306);
+define('DB_NAME', 'CourseApp');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+
+$ttdb_ = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
+
 function cache_get($url) {
 	return simplexml_load_file($url);
 }
@@ -106,6 +114,28 @@ function get_courses_of_departments_and_levels($params) {
 	return $courses;
 }
 
+function __get_course_description($department, $number) {
+	global $ttdb_;
+	
+	if ($desc_stmt = $ttdb_->prepare('SELECT description FROM course_full_view WHERE (program_name=? or program_name2=?) and (number=? or number2=?)')) {
+	
+		// bind parameters
+		$desc_stmt->bind_param('ssii', $department, $department, $number, $number);
+		
+		// execute the statement
+		$desc_stmt->execute();
+		
+		// bind the result
+		$desc_stmt->bind_result($description);
+		
+		if ($desc_stmt->fetch()) {
+			return $description;
+		}
+	}
+	
+	return '';
+}
+
 function get_course_detail($params) {
 	$id = $params->id;
 	
@@ -132,7 +162,14 @@ function get_course_detail($params) {
 		$course['status'] = strval($c->status);
 		$course['time'] = strval($c->time);
 		$course['department'] = strval($c->department);
-		$course['description'] = '';
+		
+		// rip out the number from the name
+		if (preg_match('/^[A-Z -]{3,4}(\d{3,3})[A-Z]?/', $course['name'], $matches)) {
+			$course['description'] = __get_course_description($course['department'], $matches[1]);
+		}
+		else {
+			$course['description'] = '';
+		}
 		
 		$c->registerXPathNamespace('tt', 'http://upei.ca/xsd/timetable');
 		$teachers = array();
@@ -166,3 +203,8 @@ else {
 
 header('Content-type: application/json');
 echo json_encode($method($params));
+
+
+// close the database connection
+$ttdb_->close();
+
