@@ -160,6 +160,8 @@ function get_course_detail($params) {
 		$course['semester'] = strval($c->semester);
 		$course['location'] = strval($c->location);
 		$course['status'] = strval($c->status);
+		if (empty($course['status'])) $course['status'] = 'Open';
+		
 		$course['time'] = strval($c->time);
 		$course['department'] = strval($c->department);
 		
@@ -208,3 +210,4 @@ echo json_encode($method($params));
 // close the database connection
 $ttdb_->close();
 
+ 

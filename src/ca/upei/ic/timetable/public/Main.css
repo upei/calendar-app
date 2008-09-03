@@ -40,11 +40,19 @@ img {
   margin-top: 20px;
 }
 
+
+.wi-CalendarPanel {
+	background-image: url(calendar-unofficial-background.png);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
 /* CalendarPanel styles */
 .wi-CalendarPanel-selectedCourse {
-	background-color: #e8f2fe;
+	background-color: #e8f2fe !important;
 	border: 1px solid #b5d5ff;
 	overflow: hidden;
+	background-image: none;
 }
 
 .wi-CalendarPanel-selectedCourse .gwt-HTML {
@@ -54,6 +62,7 @@ img {
 	color: #000;
 	text-align: center;
 	background-color: #e8f2fe;
+	background-image: none;
 }
 
 .wi-CalendarPanel-selectedCourse h3 {

@@ -32,7 +32,7 @@ import org.webinit.gwt.client.Observable;
  */
 public abstract class Calendar implements Observable, KeyValueCodingObserving {
 	
-	public final static int RESOLUTION = 14;
+	public final static int RESOLUTION = 15;
 
 	public final static int SUNDAY = 0;
 	public final static int MONDAY = 1;

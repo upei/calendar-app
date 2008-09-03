@@ -135,6 +135,10 @@ public class ApplicationView implements View {
 		panel.add(calendarView.getWidget(),
 				DockPanel.CENTER);
 		
+		// to footer (copyright)
+		panel.add(new HTML("&copy; 2008 University of Prince Edward Island. This is an <a href=\"http://github.com/upei/\">open-source project</a> licensed under Apache License 2.0."),
+				DockPanel.SOUTH);
+		
 		// add the horizontal panel
 		RootPanel.get().add(panel);
 	}
