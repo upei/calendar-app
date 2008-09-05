@@ -105,6 +105,7 @@ function get_courses_of_departments_and_levels($params) {
 			$courses[] = array(
 				'id' => intval($course->id),
 				'name' => strval($course->name),
+				'location' => strval($course->location),
 				'title' => strval($course->title),
 				'time' => strval($course->time),
 				);

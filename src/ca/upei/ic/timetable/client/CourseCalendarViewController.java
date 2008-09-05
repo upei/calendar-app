@@ -59,11 +59,11 @@ public class CourseCalendarViewController implements ViewController {
 	public void addCourse(int id, JSONObject course) {
 		// clear the message first
 		String name = ((JSONString) course.get("name")).stringValue();
-		String title = ((JSONString) course.get("title")).stringValue();
+		String location = ((JSONString) course.get("location")).stringValue();
 		String date = ((JSONString) course.get("time")).stringValue();
 
 		CalendarItem item = new CalendarItem(name);
-		item.setContent(title);
+		item.setContent(location);
 		
 		// analyze the date and add the item.
 		// filtered out all invalid characters
