@@ -92,6 +92,7 @@ img {
 }
 
 .timeCell {
+	font-size: 9pt;
 	text-align: right;
 	vertical-align: center;
 }
@@ -99,6 +100,7 @@ img {
 /* header strings */
 
 .gridHeaderCell {
+	font-size: 9pt;
 	border-bottom: 1px solid #ccc;
 	text-align: center;
 }
