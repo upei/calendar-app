@@ -50,11 +50,11 @@ public class SemesterModelView implements Model, View {
 			
 			CheckBox box = new CheckBox(name);
 			box.setName(name);
-			if (name.equals("FIRST SEMESTER") && month > 6 && month < 11) {
+			if (name.equals("First Semester") && month > 6 && month < 11) {
 				box.setChecked(true);
 				controller_.setSemesterCriteria(name, true);
 			}
-			if (name.equals("SECOND SEMESTER") && (month > 10 || month < 4)) {
+			if (name.equals("Second Semester") && (month > 10 || month < 4)) {
 				box.setChecked(true);
 				controller_.setSemesterCriteria(name, true);
 			}

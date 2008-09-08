@@ -1,6 +1,11 @@
 <?php
 
-define('URL', 'https://secure.upei.ca/cls/dropbox/full-timetable.xml');
+define('CACHE_DIRECTORY', 'cache');
+include_once('../libs/cache.php');
+
+$cache = new WIFileCache(CACHE_DIRECTORY);
+
+define('URL', 'http://ic.upei.ca/services/xml/xslt.php?_type=timetable');
 
 define('DB_HOST', '127.0.0.1');
 define('DB_PORT', 3306);
@@ -11,13 +16,23 @@ define('DB_PASS', '');
 $ttdb_ = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
 
 function cache_get($url) {
-	return simplexml_load_file($url);
+	global $cache;
+	
+	$key = md5($url);
+	if ($content = $cache->get($key)) {
+		return simplexml_load_string($content);
+	}
+	else {
+		$content = file_get_contents($url);
+		$cache->put($key, $content);
+		return simplexml_load_string($content);
+	}
 }
 
 function get_departments($params) {
 	$xml = cache_get(URL);
-	$xml->registerXPathNamespace('tt', 'http://upei.ca/xsd/timetable');
-	$list = array_slice(array_unique($xml->xpath('//tt:course/tt:department')), 0);
+	// $xml->registerXPathNamespace('tt', 'http://upei.ca/xsd/timetable');
+	$list = array_slice(array_unique($xml->xpath('//node/data/department')), 0);
 	
 	$departments = array();
 	foreach ($list as $d) {
@@ -30,10 +45,10 @@ function get_departments($params) {
 function get_semesters($params) {
 	// The semesters are hard-coded here to alleviate the server load.
 	return array(
-		"FIRST SEMESTER",
-		"SECOND SEMESTER",
-		"FIRST SUMMER SCHOOL",
-		"SECOND SUMMER SCHOOL"
+		"First Semester",
+		"Second Semester",
+		"First Summer School",
+		"Second Summer School"
 		);
 }
 
@@ -58,13 +73,13 @@ function get_courses_of_departments_and_levels($params) {
 	$semesters = $params->semester;
 	
 	$xml = cache_get(URL);
-	$xml->registerXPathNamespace('tt', 'http://upei.ca/xsd/timetable');
+	// $xml->registerXPathNamespace('tt', 'http://upei.ca/xsd/timetable');
 
 	// parse departments
 	$department_array = array("false");
 	foreach ($departments as $key => $value) {
 		if ($value) {
-			$department_array[] = "tt:department=\"$key\"";
+			$department_array[] = "department=\"$key\"";
 		}
 	}
 	
@@ -77,7 +92,7 @@ function get_courses_of_departments_and_levels($params) {
 	$semester_array = array("false");
 	foreach ($semesters as $key => $value) {
 		if ($value) {
-			$semester_array[] = "tt:semester=\"$key\"";
+			$semester_array[] = "semester=\"$key\"";
 		}
 	}
 	
@@ -88,7 +103,7 @@ function get_courses_of_departments_and_levels($params) {
 	
 	// var_dump($semester_predicate);
 
-	$list = $xml->xpath("//tt:course[($department_predicate) and ($semester_predicate)]");
+	$list = $xml->xpath("//node/data[($department_predicate) and ($semester_predicate)]");
 
 	// parse levels
 	$level_predicate = "[";
@@ -142,9 +157,9 @@ function get_course_detail($params) {
 	
 	// get the xml output
 	$xml = cache_get(URL);
-	$xml->registerXPathNamespace('tt', 'http://upei.ca/xsd/timetable');
+	// $xml->registerXPathNamespace('tt', 'http://upei.ca/xsd/timetable');
 	
-	$list = $xml->xpath("//tt:course[tt:id='$id']");
+	$list = $xml->xpath("//node[@id='tt-$id']");
 	
 	$course = array();
 
@@ -153,9 +168,9 @@ function get_course_detail($params) {
 		return $course;
 	}
 	else {
-		$c = $list[0];
+		$c = $list[0]->data;
 		$course['success'] = true;
-		$course['id'] = intval($c->id);
+		$course['id'] = intval($id);
 		$course['name'] = strval($c->name);
 		$course['title'] = strval($c->title);
 		$course['semester'] = strval($c->semester);
@@ -174,9 +189,9 @@ function get_course_detail($params) {
 			$course['description'] = '';
 		}
 		
-		$c->registerXPathNamespace('tt', 'http://upei.ca/xsd/timetable');
+		// $c->registerXPathNamespace('tt', 'http://upei.ca/xsd/timetable');
 		$teachers = array();
-		foreach($c->xpath('tt:instructors/tt:name') as $instructor) {
+		foreach($c->xpath('instructors/name') as $instructor) {
 			$teachers[] = strval($instructor);
 		}
 		$course['instructors'] = join("; ", $teachers);
