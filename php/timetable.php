@@ -145,6 +145,8 @@ function __get_course_description($department, $number) {
 		$desc_stmt->bind_result($description);
 		
 		if ($desc_stmt->fetch()) {
+			if ($description === NULL)
+				$description = '';
 			return $description;
 		}
 	}
@@ -189,12 +191,8 @@ function get_course_detail($params) {
 			$course['description'] = '';
 		}
 		
-		// $c->registerXPathNamespace('tt', 'http://upei.ca/xsd/timetable');
-		$teachers = array();
-		foreach($c->xpath('instructors/name') as $instructor) {
-			$teachers[] = strval($instructor);
-		}
-		$course['instructors'] = join("; ", $teachers);
+		$key = "all-instructors";
+		$course['instructors'] = strval($c->$key);
 		return $course;
 	}
 }
