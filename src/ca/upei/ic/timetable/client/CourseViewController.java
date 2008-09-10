@@ -28,9 +28,10 @@ import com.google.gwt.json.client.JSONBoolean;
 import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONString;
 
 public class CourseViewController implements ViewController {
-	
+
 	private final Service service_;
 	private ApplicationController app_;
 	private CourseModelView view_;
@@ -40,6 +41,9 @@ public class CourseViewController implements ViewController {
 	private Map<String,Boolean> levelCriteria_;
 	private Map<String,Boolean> departmentCriteria_;
 	private Map<String, Boolean> semesterCriteria_;
+	
+	private String courseDay_;
+	private String courseStartTime_;
 	
 	public CourseViewController(ApplicationController app) {
 		// initialization
@@ -73,6 +77,11 @@ public class CourseViewController implements ViewController {
 		semesterCriteria_.put(name, included);
 	}
 	
+	public void setCourseStartTimeCriteria(String day, String startTime) {
+		courseDay_ = day;
+		courseStartTime_ = startTime;
+	}
+	
 	public void search() {
 		JSONObject department = new JSONObject();
 		for (String d: departmentCriteria_.keySet()) {
@@ -96,6 +105,8 @@ public class CourseViewController implements ViewController {
 		value.put("department", department);
 		value.put("level", level);
 		value.put("semester", semester);
+		value.put("day", new JSONString(courseDay_));
+		value.put("startTime", new JSONString(courseStartTime_));
 		
 		Service.defaultInstance().askCourses(value.toString(), new RequestCallback() {
 

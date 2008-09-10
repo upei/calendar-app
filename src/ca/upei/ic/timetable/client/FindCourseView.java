@@ -38,6 +38,7 @@ public class FindCourseView implements View {
 	private final Widget levelTable_;
 	private final Widget departmentTable_;
 	private final Widget semesterTable_;
+	private final Widget startTimeWidget_;
 
 	public FindCourseView(FindCourseViewController controller) {
 		controller_ = controller;
@@ -54,6 +55,7 @@ public class FindCourseView implements View {
 		levelTable_ = controller_.getLevelModel().getWidget();
 		departmentTable_ = controller_.getDepartmentModel().getWidget();
 		semesterTable_ = controller_.getSemesterModel().getWidget();
+		startTimeWidget_ = controller_.getStartTimeModel().getWidget();
 		
 		// button panel
 		HorizontalPanel buttonPanel = new HorizontalPanel();
@@ -122,7 +124,8 @@ public class FindCourseView implements View {
 		dialogBox_.add(PanelUtils.verticalPanel(PanelUtils.horizontalPanel(
 				PanelUtils.verticalPanel(
 						PanelUtils.scrollPanel(levelTable_, 250, 180),
-						PanelUtils.scrollPanel(semesterTable_, 250, 120)
+						PanelUtils.scrollPanel(semesterTable_, 250, 120),
+						PanelUtils.scrollPanel(startTimeWidget_, 250, 30)
 						),
 				PanelUtils.scrollPanel(departmentTable_, 250, 320)
 				),

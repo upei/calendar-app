@@ -37,6 +37,7 @@ public class FindCourseViewController implements ViewController {
 	private final DepartmentModelView department_;
 	private final LevelModelView level_;
 	private final SemesterModelView semester_;
+	private final CourseStartTimeModelView startTime_;
 	private boolean departmentLoaded_ = false;
 	private boolean levelLoaded_ = false;
 	private boolean semesterLoaded_ = false;
@@ -49,6 +50,7 @@ public class FindCourseViewController implements ViewController {
 		department_ = new DepartmentModelView(this);
 		level_ = new LevelModelView(this);
 		semester_ = new SemesterModelView(this);
+		startTime_ = new CourseStartTimeModelView(this);
 	}
 	
 	/**
@@ -129,6 +131,10 @@ public class FindCourseViewController implements ViewController {
 		return semester_;
 	}
 	
+	public CourseStartTimeModelView getStartTimeModel() {
+		return startTime_;
+	}
+	
 	public void setSemesterCriteria(String name, boolean included) {
 		app_.getCourseController().setSemesterCriteria(name, included);
 	}
@@ -139,6 +145,10 @@ public class FindCourseViewController implements ViewController {
 	
 	public void setDepartmentCriteria(String name, boolean included) {
 		app_.getCourseController().setDepartmentCriteria(name, included);
+	}
+	
+	public void setStartTimeCriteria(String day, String startTime) {
+		app_.getCourseController().setCourseStartTimeCriteria(day, startTime);
 	}
 	
 	public void search() {

@@ -21,6 +21,8 @@ import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -33,11 +35,43 @@ public class DepartmentModelView implements Model, View {
 	
 	private final VerticalPanel panel_;
 	private final FindCourseViewController controller_;
+	private final Hyperlink selectAllLink_;
+	private final Hyperlink deselectAllLink_;
+	private final VerticalPanel outerPanel_;
 	
 	public DepartmentModelView(FindCourseViewController controller) {
 		controller_ = controller;
+		
+		selectAllLink_ = GWT.create(com.google.gwt.user.client.ui.Hyperlink.class);
+		deselectAllLink_ = GWT.create(com.google.gwt.user.client.ui.Hyperlink.class);
+		
+		selectAllLink_.setText("Select All");
+		selectAllLink_.addClickListener(new ClickListener() {
+
+			public void onClick(Widget sender) {
+				for (int index = 0; index < panel_.getWidgetCount(); index++) {
+					CheckBox box = (CheckBox) panel_.getWidget(index);
+					box.setChecked(true);
+				}
+			}
+			
+		});
+		
+		deselectAllLink_.setText("Select None");
+		deselectAllLink_.addClickListener(new ClickListener() {
+			public void onClick(Widget sender) {
+				for (int index = 0; index < panel_.getWidgetCount(); index++) {
+					CheckBox box = (CheckBox) panel_.getWidget(index);
+					box.setChecked(false);
+				}
+			}
+		});
+		
 		panel_ = GWT.create(VerticalPanel.class);
 		panel_.setSpacing(3);
+		outerPanel_ = PanelUtils.verticalPanel(
+				PanelUtils.horizontalPanel(selectAllLink_, new HTML("&nbsp;/&nbsp;"), deselectAllLink_),
+				panel_);
 	}
 	
 	public void loadJSON(JSONValue value) {
@@ -67,7 +101,7 @@ public class DepartmentModelView implements Model, View {
 	}
 
 	public Widget getWidget() {
-		return panel_;
+		return outerPanel_;
 	}
 
 	public void addSubView(View subView) {
@@ -79,10 +113,10 @@ public class DepartmentModelView implements Model, View {
 	}
 
 	public void hide() {
-		panel_.setVisible(false);
+		outerPanel_.setVisible(false);
 	}
 
 	public void show() {
-		panel_.setVisible(true);
+		outerPanel_.setVisible(true);
 	}
 }
