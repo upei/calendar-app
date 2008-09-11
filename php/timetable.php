@@ -71,6 +71,8 @@ function get_courses_of_departments_and_levels($params) {
 	$departments = $params->department;
 	$levels = $params->level;
 	$semesters = $params->semester;
+	$day = $params->day;
+	$hour = $params->startTime;
 	
 	$xml = cache_get(URL);
 	// $xml->registerXPathNamespace('tt', 'http://upei.ca/xsd/timetable');
@@ -101,9 +103,19 @@ function get_courses_of_departments_and_levels($params) {
 		$semester_predicate = join(" or ", $semester_array);
 	}
 	
+	$day_prediate='';
+	if ($day != 'all') {
+		$day_predicate = "and (time-parsed/day='$day')";
+	}
+	
+	$hour_predicate='';
+	if ($hour != 'all') {
+		$hour_predicate = "and (time-parsed/time/start='$hour')";
+	}
+	
 	// var_dump($semester_predicate);
 
-	$list = $xml->xpath("//node/data[($department_predicate) and ($semester_predicate)]");
+	$list = $xml->xpath("//node/data[($department_predicate) and ($semester_predicate) $day_predicate $hour_predicate]");
 
 	// parse levels
 	$level_predicate = "[";

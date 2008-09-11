@@ -42,6 +42,10 @@ public class CalendarView implements View {
 		// TODO Auto-generated method stub
 		throw new RuntimeException("Not implemented.");
 	}
+	
+	public void setCellClickListener(CellClickListener listener) {
+		panel_.setCellClickListener(listener);
+	}
 
 	public ViewController getController() {
 		return controller_;

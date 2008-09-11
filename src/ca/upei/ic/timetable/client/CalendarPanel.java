@@ -28,6 +28,7 @@ import ca.upei.ic.timetable.client.CalendarItem.TimeInterval;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -53,8 +54,14 @@ public abstract class CalendarPanel extends Composite implements Observer,
 	private int calendarInnerWidth_;
 	private int calendarLeftDescriptionWidth_ = 60;
 	private int width_, height_;
+	
+	private CellClickListener cellClickListener_;
 
 	public CalendarPanel() {
+	}
+	
+	public void setCellClickListener(CellClickListener listener) {
+		cellClickListener_ = listener;
 	}
 
 	/**
@@ -158,7 +165,23 @@ public abstract class CalendarPanel extends Composite implements Observer,
 				cell.setHeight(Integer.toString(Calendar.RESOLUTION * 2 - 1)
 						+ "px");
 				cell.setWidth(Integer.toString(courseWidth_ - 1) + "px");
-				gridColumn.add(cell);
+				
+				final int day = i;
+				final int hour = j;
+				
+				gridColumn.add(PanelUtils.focusPanel(cell, new ClickListener() {
+
+					public void onClick(Widget sender) {
+						if (cellClickListener_ != null) {
+							Map<String, Integer> params = new HashMap<String,Integer>();
+							params.put("day", day);
+							params.put("hour", hour);
+							cellClickListener_.setContext(params);
+							cellClickListener_.onClick(sender);
+						}
+					}
+					
+				}, null, null, null));
 			}
 			grid.add(gridColumn);
 		}

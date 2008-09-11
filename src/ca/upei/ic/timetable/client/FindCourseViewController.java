@@ -15,11 +15,14 @@
  */
 package ca.upei.ic.timetable.client;
 
+import java.util.Map;
+
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
+import com.google.gwt.user.client.ui.Widget;
 
 
 /**
@@ -51,6 +54,22 @@ public class FindCourseViewController implements ViewController {
 		level_ = new LevelModelView(this);
 		semester_ = new SemesterModelView(this);
 		startTime_ = new CourseStartTimeModelView(this);
+		
+//		app_.getCourseCalendarController().setCellClickListener(new CellClickListener() {
+//			
+//			private Map<String,Integer> params;
+//			
+//			public void setContext(Object context) {
+//				params = (Map<String,Integer>) context;
+//			}
+//
+//			public void onClick(Widget sender) {
+//				startTime_.setDay(params.get("day") + 1);
+//				startTime_.setHour(params.get("hour") + 1);
+//				app_.getFindCourseController().getView().show();
+//			}
+//			
+//		});
 	}
 	
 	/**

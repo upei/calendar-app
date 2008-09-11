@@ -36,8 +36,12 @@ public class CourseStartTimeModelView implements Model, View {
 		day_.addItem("Thursday");
 		day_.addItem("Friday");
 		
+		// set the popup title
+		day_.setTitle("Choose a day when you want to have courses");
+		hour_.setTitle("Choose a time when you want to have courses");
+		
 		// create the panel
-		panel_ = PanelUtils.horizontalPanel(hour_, day_);
+		panel_ = PanelUtils.horizontalPanel(day_, hour_);
 		
 		controller_.setStartTimeCriteria(getDay(), getHour());
 		
@@ -62,6 +66,14 @@ public class CourseStartTimeModelView implements Model, View {
 	
 	public String getDay() {
 		return day_.getValue(day_.getSelectedIndex());
+	}
+	
+	public void setDay(int day) {
+		day_.setSelectedIndex(day+1);
+	}
+	
+	public void setHour(int hour) {
+		if (hour < 24) hour_.setSelectedIndex(hour+1);
 	}
 
 	public void clear() {

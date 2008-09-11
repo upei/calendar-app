@@ -148,6 +148,10 @@ public class CourseCalendarViewController implements ViewController {
 		calendar_.addItem(item);
 	}
 	
+	public void setCellClickListener(CellClickListener listener) {
+		view_.setCellClickListener(listener);
+	}
+	
 	/**
 	 * Remove a course from the Calendar
 	 * 

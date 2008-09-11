@@ -52,6 +52,7 @@ public class DepartmentModelView implements Model, View {
 				for (int index = 0; index < panel_.getWidgetCount(); index++) {
 					CheckBox box = (CheckBox) panel_.getWidget(index);
 					box.setChecked(true);
+					controller_.setDepartmentCriteria(box.getName(), true);
 				}
 			}
 			
@@ -63,6 +64,7 @@ public class DepartmentModelView implements Model, View {
 				for (int index = 0; index < panel_.getWidgetCount(); index++) {
 					CheckBox box = (CheckBox) panel_.getWidget(index);
 					box.setChecked(false);
+					controller_.setDepartmentCriteria(box.getName(), false);
 				}
 			}
 		});
